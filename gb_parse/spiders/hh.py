@@ -1,7 +1,8 @@
 import scrapy
 
 from gb_parse.loaders import HHLoader, HCLoader
-from gb_parse.spiders.xpaths import HH_PAGE_XPATH, HH_VACANCY_XPATH, HH_COMPANY_XPATH
+from gb_parse.spiders.xpaths import HH_PAGE_XPATH, HH_VACANCY_XPATH, \
+                                    HH_COMPANY_XPATH, HH_COMPANY_VACANCY_XPATH
 
 
 class HhSpider(scrapy.Spider):
@@ -13,7 +14,10 @@ class HhSpider(scrapy.Spider):
 
     def _get_follow_xpath(self, response, xpath, callback):
         for url in response.xpath(xpath):
-            yield response.follow(url, callback=callback)
+            try:
+                yield response.follow(url, callback=callback)
+            except (ValueError, AttributeError):
+                continue
 
     def parse(self, response):
         callbacks = {
@@ -45,3 +49,6 @@ class HhSpider(scrapy.Spider):
             except (ValueError, AttributeError):
                 continue
         yield loader.load_item()
+
+        '''Обходим все вакансии данного автора'''
+        yield from self._get_follow_xpath(response, HH_COMPANY_VACANCY_XPATH, self.parse)

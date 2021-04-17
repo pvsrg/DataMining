@@ -31,5 +31,6 @@ class GbParsePipeline:
         self.client.close()
 
     def process_item(self, item, spider):
-        self.db[item['collection']].insert_one(item)
+        collection = item.pop('collection')
+        self.db[collection].insert_one(item)
         return item

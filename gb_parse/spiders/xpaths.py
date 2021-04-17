@@ -26,3 +26,7 @@ HH_COMPANY_XPATH = {
                   'div[@class="employer-sidebar-block"]/p/text()',
     "description": '//div[@data-qa="company-description-text"]//text()',
 }
+
+HH_COMPANY_VACANCY_XPATH = \
+    '//div[@class="employer-sidebar"]//a[@data-qa="employer-page__employer-vacancies-link"]/@href'
+

@@ -38,7 +38,7 @@ class HCLoader(ItemLoader):
     default_item_class = dict
     collection_out = TakeFirst()
     url_out = TakeFirst()
-    title_out = TakeFirst()
+    title_out = join_text
     site_out = TakeFirst()
     activities_in = MapCompose(lower_text)
     activities_out = MapCompose(split_text)
